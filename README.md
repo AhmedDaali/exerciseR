@@ -1,8 +1,5 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>ggplot Practice Repository</title>
-</head>
 <body>
 
 <h1>ggplot Practice Repository</h1>
@@ -19,3 +16,4 @@
 
 </body>
 </html>
+
