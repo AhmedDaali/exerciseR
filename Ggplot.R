@@ -4,7 +4,7 @@ install.packages("viridis")
 library(viridis)
 
 getwd()
-setwd("/ahmed/Desktop/exerciseR/Project_test")
+setwd("C:/Users/ahmed/Desktop/exerciseR")
 
 # Load the dplyr package
 library(dplyr)
@@ -34,3 +34,19 @@ ggplot(data = iris, aes(x = Sepal.Length, y = Petal.Length, color = Species)) +
 #There are other possible shorter ways for generating this same output
 ggplot(iris, aes(Sepal.Length, Petal.Length, color = Species)) + 
   geom_point()
+
+#It is possible to create a variable with your base aesthetics and 
+#then simply call it to apply other layers.
+#The following will create the same output as the previous graph
+key <- ggplot(data = iris, aes(x = Sepal.Length, 
+                               y = Petal.Length, , 
+                               color = Species))
+key + geom_point()
+
+#Different geometries can also be used to complement each other. 
+#Here “geom_smooth()” adds a trend line and area to the points
+key + geom_point() + geom_smooth()
+
+#You should have noticed how geometries are here added with default options.
+#Each has a set of options, such as removing the trend area in the following with se=FALSE
+key + geom_point() + geom_smooth(se=FALSE)
