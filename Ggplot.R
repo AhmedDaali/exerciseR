@@ -185,5 +185,110 @@ plot_test + scale_fill_gradient(na.value = "red3")
 plot_test + scale_fill_gradientn(colours = viridis(7), na.value = "white")
 
 
+#Now that we learned how to choose our data, and apply layers of aesthetics and geometries, 
+#let’s explore other possible layers of information such as facets and scales.
+library(ggplot2)
+library(RColorBrewer)
+library(viridis)
+library(ggsci)
+
+#Setting Themes
+#Themes encompass options for the general graphical display of a graph, 
+#by modifying non-data output such as the legends, the panel background,etc…
+new_key <- key + geom_point(aes(color = Species)) + 
+  geom_smooth(aes(color = Species, fill = Species), 
+              method = "lm") + facet_wrap(~Species, scale='free_y') 
+
+new_key + scale_color_tron() + scale_fill_tron()
+
+# By default the themes are set to “theme_grey()” (or gray). 
+#The same previous output will be displayed if you type:
+new_key + scale_color_tron() + scale_fill_tron() + theme_grey()
+
+#Here is different theme:
+new_key + scale_color_tron() + scale_fill_tron() + theme_minimal() 
+
+#You can now customize the background color, and also set the legends positions. 
+#Here is an example on how to place the legend at the bottom.
+new_key + scale_color_tron() + scale_fill_tron() + 
+  theme_minimal() + theme(legend.position = "bottom", 
+                          panel.background = element_rect(fill = "#e0ebeb"), 
+                          legend.key = element_rect(fill = "#669999"))
+
+#Note the difference hereafter if when we leave the default theme (just by removing “theme_minimal()” to
+#come back to basic)
+new_key + scale_color_tron() + scale_fill_tron() +  
+  theme(legend.position = "bottom", panel.background = 
+          element_rect(fill = "#e0ebeb"), 
+        legend.key = element_rect(fill = "#669999"))
+
+#It is also possible to customize the position or justification of your legend. To do this, 
+#you can use “theme_position()” to set the position in the whole panel, and “theme_justification()” to
+#set the position in the legend area. They are defined with a vector of length 2, indicating x and
+#y positions in terms of space coordinates, where c(1, 0) is the bottom-right position
+new_key + scale_color_tron() + scale_fill_tron() + 
+  theme(legend.position=c(1,0), legend.justification = c(1, 0))
 
 
+#Setting Coordinates
+#The coordinate system controls the position of objects into the main panel, as well as axis and grid lines display.
+#The most classically used are cartesian coordinates, but many other exist
+
+#Let’s start with “coord_cartesian()” which is set by default. The following commands will have the same output
+new_key + scale_color_tron() + scale_fill_tron()
+
+new_key + scale_color_tron() + scale_fill_tron() 
++ coord_cartesian()
+
+#We are now used to see specific options with each function. Let’s fix a ratio from 
+#x to y axis, and see how this affects the display in the main panel
+new_key2 <- ggplot(data = iris) + geom_point(aes(x = 
+                                                   Petal.Length, y = Petal.Width, color = Species)) + 
+  facet_wrap(~Species) + scale_color_tron() + scale_fill_tron()
+
+new_key2 + coord_fixed(ratio = 2)
+
+#A logarithmic transformation can be applied to x and y-axis
+new_key2 + coord_trans(x = "log2", y = "log2")
+
+#It also possible to swap x-axis values to y-axis and vice-versa
+new_key2 + coord_flip()
+
+#Compare these 2 outputs to see how it changes the display for other plot types:
+
+#Barplot
+new_key3 <- ggplot(iris, aes(x=Petal.Length, Petal.Width)) +
+geom_bar(stat="identity", fill="white", color="red3")
+
+new_key3
+
+#Right Barplot
+new_key3 + coord_flip()
+
+#Setting Labels
+
+#Let’s start with default “labs()” to set the legend title. 
+#The following commands will have the same output
+new_key + scale_color_tron() + scale_fill_tron()
+
+new_key + scale_color_tron() + scale_fill_tron() +
+labs(color = "Species")
+
+# Notice how we modify the legend title by:
+new_key + scale_color_tron() + scale_fill_tron() + 
+  labs(color = "Iris_Species")
+
+#To modify also the x-axis and y-axis names
+new_key + scale_color_tron() + scale_fill_tron() + 
+  labs(color = "Iris_Species", x = "Sepal Length values", 
+       y = "Petal Length values")
+
+#Note that it might often be possible to do the same thing using
+#different functions or options. Let’s see 2 options to add a title
+new_key + scale_color_tron() + scale_fill_tron() + 
+  labs(color = "Iris_Species", x = "Sepal Length values", 
+       y = "Petal Length values", title = "Petal vs. Sepal Legnth")
+
+new_key + scale_color_tron() + scale_fill_tron() + 
+  labs(color = "Iris_Species", x = "Sepal Length values", 
+       y = "Petal Length values") + ggtitle("Petal vs. Sepal Legnth")
