@@ -292,4 +292,3 @@ new_key + scale_color_tron() + scale_fill_tron() +
 new_key + scale_color_tron() + scale_fill_tron() + 
   labs(color = "Iris_Species", x = "Sepal Length values", 
        y = "Petal Length values") + ggtitle("Petal vs. Sepal Legnth")
-#Comentario prueba
